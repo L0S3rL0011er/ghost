@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Do You Miss Me? 💖</title>
+        <style>
+            /* ---------------------------------------- */
+            /* BASE STYLES */
+            /* ---------------------------------------- */
+            @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+            :root {
+                --pink-light: #ffd6e7;
+                --pink-medium: #ff9ec6;
+                --pink-dark: #ff7eb3;
+                --text-color: #5a2d40;
+            }
+
+            body {
+                font-family: "Poppins", sans-serif;
+                background-color: var(--pink-light);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                margin: 0;
+                overflow-x: hidden;
+                transition: background-color 1s ease;
+                position: relative;
+            }
+
+            .hearts {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .heart {
+                position: absolute;
+                opacity: 0;
+                animation: float 6s ease-in infinite;
+            }
+
+            @keyframes float {
+                0% {
+                    transform: translateY(0) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: 1;
+                }
+                90% {
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-500px) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+
+            section {
+                background: white;
+                border: 4px solid var(--pink-medium);
+                border-radius: 20px;
+                width: 320px;
+                height: 240px;
+                transition: all 0.4s;
+                text-align: center;
+                padding: 30px;
+                box-shadow: 0 10px 25px rgba(255, 126, 179, 0.3);
+                position: relative;
+                z-index: 2;
+                overflow: hidden;
+            }
+
+            section::before {
+                content: "";
+                position: absolute;
+                top: -10px;
+                left: -10px;
+                right: -10px;
+                bottom: -10px;
+                background: linear-gradient(
+                    45deg,
+                    var(--pink-light),
+                    var(--pink-medium),
+                    var(--pink-dark),
+                    var(--pink-medium),
+                    var(--pink-light)
+                );
+                background-size: 400%;
+                z-index: -1;
+                animation: glowing 3s linear infinite;
+                opacity: 0.5;
+                border-radius: 25px;
+            }
+
+            @keyframes glowing {
+                0% {
+                    background-position: 0 0;
+                }
+                50% {
+                    background-position: 400% 0;
+                }
+                100% {
+                    background-position: 0 0;
+                }
+            }
+
+            h2 {
+                color: var(--text-color);
+                font-weight: 600;
+                font-size: 24px;
+                margin-bottom: 30px;
+                position: relative;
+                display: inline-block;
+            }
+
+            h2::after {
+                content: "";
+                position: absolute;
+                bottom: -10px;
+                left: 0;
+                width: 100%;
+                height: 3px;
+                background: linear-gradient(
+                    to right,
+                    transparent,
+                    var(--pink-dark),
+                    transparent
+                );
+                transform: scaleX(0);
+                transform-origin: center;
+                transition: transform 0.3s ease;
+            }
+
+            section:hover h2::after {
+                transform: scaleX(1);
+            }
+
+            .buttons {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            button {
+                background-color: var(--pink-dark);
+                color: white;
+                font-family: "Poppins", sans-serif;
+                font-weight: 600;
+                border: none;
+                border-radius: 50px;
+                width: 100px;
+                height: 50px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(255, 126, 179, 0.4);
+            }
+
+            button::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent
+                );
+                transition: 0.5s;
+            }
+
+            button:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(255, 126, 179, 0.6);
+            }
+
+            button:hover::before {
+                left: 100%;
+            }
+
+            #n:hover {
+                background-color: #ff5c8d;
+            }
+
+            #b {
+                background-color: var(--pink-medium);
+            }
+
+            #b:hover {
+                background-color: #ff9ec6;
+            }
+
+            /* Typing animation */
+            .typing {
+                overflow: hidden;
+                white-space: nowrap;
+                border-right: 3px solid var(--pink-dark);
+                animation:
+                    typing 2s steps(20, end),
+                    blink-caret 0.75s step-end infinite;
+            }
+
+            @keyframes typing {
+                from {
+                    width: 0;
+                }
+                to {
+                    width: 100%;
+                }
+            }
+
+            @keyframes blink-caret {
+                from,
+                to {
+                    border-color: transparent;
+                }
+                50% {
+                    border-color: var(--pink-dark);
+                }
+            }
+
+            /* Final screen */
+            .final-screen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: var(--pink-light);
+                display: none;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                z-index: 10;
+                opacity: 0;
+                transition: opacity 1s ease;
+            }
+
+            .final-message {
+                font-size: 32px;
+                color: var(--text-color);
+                margin-bottom: 30px;
+                text-align: center;
+                opacity: 0;
+                transform: translateY(20px);
+                transition: all 1s ease;
+            }
+
+            .anime-characters {
+                display: flex;
+                justify-content: center;
+                align-items: flex-end;
+                height: 200px;
+                opacity: 0;
+                transform: scale(0.8);
+                transition: all 1s ease;
+            }
+
+            .character {
+                width: 120px;
+                height: 180px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: bottom;
+                transition: all 0.3s ease;
+            }
+
+            .character.left {
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><circle cx="50" cy="40" r="30" fill="%23ff9ec6"/><circle cx="40" cy="35" r="5" fill="%235a2d40"/><circle cx="60" cy="35" r="5" fill="%235a2d40"/><path d="M45 50 Q50 55 55 50" stroke="%235a2d40" stroke-width="2" fill="none"/><path d="M30 70 L70 70 L65 120 L60 150 L40 150 L35 120 Z" fill="%23ff9ec6"/></svg>');
+                margin-right: -20px;
+            }
+
+            .character.right {
+                background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 150"><circle cx="50" cy="40" r="30" fill="%23ff7eb3"/><circle cx="40" cy="35" r="5" fill="%235a2d40"/><circle cx="60" cy="35" r="5" fill="%235a2d40"/><path d="M45 50 Q50 55 55 50" stroke="%235a2d40" stroke-width="2" fill="none"/><path d="M30 70 L70 70 L65 120 L60 150 L40 150 L35 120 Z" fill="%23ff7eb3"/></svg>');
+                margin-left: -20px;
+            }
+
+            .show-final .final-screen {
+                display: flex;
+                opacity: 1;
+            }
+
+            .show-final .final-message {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .show-final .anime-characters {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            .show-final .character.left {
+                animation: hug-left 1s ease infinite alternate;
+            }
+
+            .show-final .character.right {
+                animation: hug-right 1s ease infinite alternate;
+            }
+
+            @keyframes hug-left {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(10px);
+                }
+            }
+
+            @keyframes hug-right {
+                0% {
+                    transform: translateX(0);
+                }
+                100% {
+                    transform: translateX(-10px);
+                }
+            }
+
+            /* ---------------------------------------- */
+            /* RESPONSIVE DESIGN */
+            /* ---------------------------------------- */
+            @media (max-width: 450px) {
+                section {
+                    width: 280px;
+                    height: 220px;
+                    padding: 20px;
+                }
+
+                h2 {
+                    font-size: 20px;
+                }
+
+                .buttons {
+                    gap: 15px;
+                }
+
+                button {
+                    width: 80px;
+                    height: 45px;
+                    font-size: 14px;
+                }
+
+                .final-message {
+                    font-size: 24px;
+                }
+
+                .character {
+                    width: 100px;
+                    height: 150px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="hearts" id="hearts"></div>
+
+        <section>
+            <h2 class="typing">Do you miss me? 💖</h2>
+            <div class="buttons">
+                <button id="n">No</button>
+                <button id="b">Yes</button>
+            </div>
+        </section>
+
+        <div class="final-screen" id="finalScreen">
+            <div class="final-message">
+                I miss you too! Let's stay together forever~
+            </div>
+            <div class="anime-characters">
+                <div class="character left"></div>
+                <div class="character right"></div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Create floating hearts
+                const heartsContainer = document.getElementById("hearts");
+                for (let i = 0; i < 15; i++) {
+                    const heart = document.createElement("div");
+                    heart.classList.add("heart");
+                    heart.innerHTML = "💖";
+                    heart.style.left = Math.random() * 100 + "vw";
+                    heart.style.top = Math.random() * 100 + "vh";
+                    heart.style.fontSize = Math.random() * 20 + 10 + "px";
+                    heart.style.animationDelay = Math.random() * 5 + "s";
+                    heartsContainer.appendChild(heart);
+                }
+
+                // Button hover effects
+                const buttons = document.querySelectorAll("button");
+                buttons.forEach((button) => {
+                    button.addEventListener("mouseenter", () => {
+                        button.style.transform = "scale(1.1)";
+                    });
+
+                    button.addEventListener("mouseleave", () => {
+                        button.style.transform = "scale(1)";
+                    });
+                });
+
+                // No button behavior
+                const noButton = document.getElementById("n");
+                noButton.addEventListener("mouseover", function () {
+                    // Move button randomly when hovered
+                    const x = Math.random() * 100 - 50;
+                    const y = Math.random() * 100 - 50;
+                    this.style.transform = `translate(${x}px, ${y}px)`;
+                });
+
+                noButton.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    alert("Don't lie! I know you miss me~ 😊");
+                });
+
+                // Yes button behavior
+                const yesButton = document.getElementById("b");
+                yesButton.addEventListener("click", function () {
+                    document.body.classList.add("show-final");
+                    document.getElementById("finalScreen").style.display =
+                        "flex";
+
+                    setTimeout(() => {
+                        document.getElementById("finalScreen").style.opacity =
+                            "1";
+                        document.querySelector(".final-message").style.opacity =
+                            "1";
+                        document.querySelector(
+                            ".final-message",
+                        ).style.transform = "translateY(0)";
+                        document.querySelector(
+                            ".anime-characters",
+                        ).style.opacity = "1";
+                        document.querySelector(
+                            ".anime-characters",
+                        ).style.transform = "scale(1)";
+                    }, 100);
+
+                    // Create more hearts when yes is clicked
+                    for (let i = 0; i < 30; i++) {
+                        setTimeout(() => {
+                            const heart = document.createElement("div");
+                            heart.classList.add("heart");
+                            heart.innerHTML = "💖";
+                            heart.style.left = Math.random() * 100 + "vw";
+                            heart.style.top = "100vh";
+                            heart.style.fontSize =
+                                Math.random() * 30 + 15 + "px";
+                            heart.style.animationDuration =
+                                Math.random() * 3 + 3 + "s";
+                            heartsContainer.appendChild(heart);
+
+                            // Remove heart after animation
+                            setTimeout(() => {
+                                heart.remove();
+                            }, 6000);
+                        }, i * 100);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
